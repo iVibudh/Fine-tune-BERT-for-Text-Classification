@@ -1,0 +1,194 @@
+Welcome back in this task.
+Let's token eyes and pre process all our text data for Burt.
+Remember, In the previous task, all we did was download
+the birth layer from TensorFlow Hub and also instance she ate
+the token Isar, we haven't really gone ahead and token eyes
+are text.
+So in this tells let's write a function that hopefully does
+that for us.
+So recall that in the last task we instance she hated
+the birth token.
+Isar using the vocabulary file from the bird caress layer.
+So what we need to do now is to get our data
+into the required format by Burt where our text has to be
+token ized and then padded up until the Mac sequence length
+and also you we have to make sure to add those two special
+tokens.
+One is the C. L s token, which is pretended at the start
+of each sequence.
+And, uh, the SCP token, which is appended, toothy, end
+of every sequence, and then that takes care of Onley are, uh,
+input tokens.
+So once we have our input tokens, we need to generate
+the token IEDs.
+We already know how to do that kind off.
+And then we need to generate this thing called an input
+mosque and also generate, uh, this thing called the input
+type I. D. S. I realized that this may seem a bit complicated
+and I thought so, too, when I first came across, uh, this, uh,
+implementation.
+So let me break it down for you.
+So the input token ideas I think we've already covered
+and they're simple.
+They're just the indices in the vocabulary corresponding
+to the individual tokens.
+So we know how to generate thes token ideas using the word
+peace, uh, token Isar and also dysfunction from the token,
+Isar called, um convert tokens to IEDs.
+Now let's talk about the input mask, IEDs and Thean put type
+ideas. Let's focus on the input mosques first.
+So recall that we set a maximum length for the input.
+So that was called the Mac sequence length.
+And we set that to 1 28 and remember that each sequence had
+to be padded so that padded up until the max sequence length
+to get constant length tensor xcx and unlike, uh, embedding
+that came before contextualized and beddings like Bert,
+for example, glove.
+So unlike those M beddings bird is actually
+creating contextualized word and beddings, meaning that
+it is attending to parts of the entire sequence, be it
+to the left and to the right off um, the token of interest.
+But we really don't want Burt attending to patting tokens,
+right? They don't really convey any information
+about the sequence at all.
+So that's why we have this concept of input masks.
+So you can think of the input mask also being a vector
+of the same length of max sequence length and that vector, uh,
+has ah value of one in each element corresponding
+to the input token ID's.
+And it has a value of zero where there are patting tokens.
+So if you take the dot product of these two vectors,
+the input IEDs, uh, input token IEDs in the input mass,
+any multiplication tze with the padding tokens will be zeroed
+out. Alright, so I hope you get the idea.
+Basically, all we're trying to do is pay attention
+to the actual text or the A token IEDs corresponding
+to the tokens of the actual text and not the zero padding is
+that we've done to every sequence.
+Okay, now let's quickly talk about the input type by these.
+So remember that Burt was pre trained on two tasks.
+One was called the Must language modeling, where random words
+from the sentence would be masked and it was the task
+for birth to predict what those mask tokens are.
+And the other task was, um, it's called next sentence
+prediction, or NSB.
+So in this pre training task, Burt was tasked with given
+two sentences or sequences to predict which one came first
+and which came after.
+So the first sentence was given the value zero and the second
+sentence one.
+But as we're dealing with only one sequence at a time,
+for in the case of text classification, our input type will
+just be a tensor or vector that has all values.
+Zero. So we're just doing this because Bert wants this as
+input. So to determine the input type ideas.
+It's even simpler in our case, since we're only submitting
+one sentence.
+The type IEDs are all zero in our classifications use case.
+Okay, so now let us implement this in actual code.
+So what we're going to be doing is using a constructor
+from the official sub modules that we imported
+from the repositories, and we are going to transform our data
+into a format that Burt understand and understands, and this
+involves two steps.
+First, we are going to create, uh, input examples using
+the constructor provided in the repositories.
+And next, we are going to convert these input examples
+into input features where the features that we're looking
+for are the token IEDs, the input mass and the type I ds.
+So let's go ahead and implement this.
+So first, uh, we I have already given the starter code
+for the function definition.
+So it takes the text, it takes your label, and it also takes
+the label list as well as the Max Sequent length
+and the token Isar.
+So all of these go in by default, and now we create something
+called an input example.
+So this is the data structure that Bert uses to create input
+features, and the sub module that we imported earlier
+from the official repo was called classifier data lip.
+And this has a constructor called input example, and this
+takes a couple of parameters.
+Let's let's go over each one of them, the first of which is,
+uh, this argument called you I d.
+So this is just the unique I d for, um, each for the example.
+But since we are only working with one example at a time,
+let's set this to none.
+And the second argument is called text underscore A.
+So this is the text that we want to classify.
+So So let's set this to text dot numb pie.
+So we're getting, um, some text in as a function argument
+here and then the text is remember in a tensor format.
+So we need to get the value of the tensor, and we call
+the dot com pie function on that.
+Alright, so that's text A.
+And if we were doing, uh, say next sentence prediction, we
+would use, uh, this argument called text underscore B as well.
+But since we're doing just ah, sentence classifications,
+but we can set that to none.
+And finally we, uh, we need to pass in the label, for example.
+So let's do that label equals label dot num pie.
+Great. So that takes care off.
+Creating our, uh, input example.
+What we need to do is convert this example into features,
+so that's type that in here.
+Our feature is going to be classifier data lib dot Convert
+single example.
+So this is the function, and we're converting, uh, the zeros
+example.
+So this is just the index of the example.
+We have one and the index of that zero.
+So zero example.
+And we also have to tell it, uh, the label list and the mac
+sequence length and the token Isar.
+So you can see when I hover over the inside of dysfunction,
+you can see, um, the doc string or whatever has to go
+in the arguments of the function here.
+So we pass in the label list and specify our Mac sequence
+length and also pass in our token Isar.
+Great. So this is going to return to us this feature object,
+and that contains our field of interest.
+So what we're gonna do is now return specific, uh, fields
+from the feature object that was returned to us.
+So the input features.
+So the feature contains Ah, what we really want for birth,
+which is the input IEDs and also contains the input mosque.
+So feature dot input underscore mask, and it contains thean
+put type IEDs, which, uh, in this case are also called
+segment IEDs.
+It's a feature dot segment underscore ideas.
+And lastly, it is.
+We're also going to return, uh, the label so feature dot
+label underscore.
+I'd That's it.
+Awesome.
+So we have just defined a function, uh, to convert a row
+from our data to input features and the label.
+Awesome.
+So, um, this, in my opinion, was the most challenging part
+of this entire project.
+So you can actually breathe a sigh of relief if you want
+to at this point, Uh, but there's a caveat.
+So we can't directly use this function.
+Thio, create our input data structure.
+So we want to use the data set TF, the data, the data set map
+function to apply the function that we've just created
+to each element of our data set.
+Remember here that we're working with individual rose
+and individual example so we can use the data set that map
+function to apply, uh, dysfunction to each element of our
+data set.
+But the problem is that, uh, data set dot map it runs
+in graph mode.
+And, uh, and this is a problem, because graph tensor is do
+not have a value and in graph mode you can use on Lee
+TensorFlow ops and functions.
+So basically, you can't map this function directly to our
+data, and we need to wrap it in a, uh, TensorFlow python
+function.
+Uh, class.
+And what that will do is ah create a wrapper function so that
+rather than using graft answers that do not have a value
+we get, we pass in regular tenser with a value and a dot numb
+pie method S O that is accessible.
+So let's do this in the next task.
