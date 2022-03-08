@@ -1,0 +1,24 @@
+Which deep learning architecture is BERT based on?
+- Transformer 
+
+The paradigm of unsupervised (or semi-supervised) 
+pre-training followed by supervised fine-tuning has 
+revolutionized NLP. Which of the following tasks was 
+BERT pre-trained on?
+- Masked language modeling
+- Next Sentence prediction
+
+Question 3
+For the BERT uncased model used in the project, what 
+is the maximum supported input size (per sequence)?
+512
+
+Question 4:
+Question 4
+Inputs to BERT have to be tokenized before inference. 
+In what order are the following steps supposed to be 
+performed?
+
+1. Split input string into tokens
+2. Prepend [CLS] and append [SEP] tokens
+3. Substitute tokens with their ids
